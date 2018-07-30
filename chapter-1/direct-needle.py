@@ -2,6 +2,7 @@ import numpy
 import click
 import timeit
 from matplotlib import pyplot
+from matplotlib.patches import Ellipse
 
 
 def figure_1_8(a, b, points=201):
@@ -30,15 +31,47 @@ def figure_1_8(a, b, points=201):
     pyplot.savefig("figure_1.8.pdf")
     pyplot.close()
 
+def figure_1_10(n, a, b, height, ncracks=18):
+    # Buffon's experiment with n needles of size a and ncracks of size b
+    
+    pyplot.figure()
+
+    for i in range(ncracks):
+        pyplot.axvline(i * b, ls="-", color="black")
+
+    for i in range(n):
+        xcenter = numpy.random.uniform(0, (ncracks - 1) * b)
+        ycenter = numpy.random.uniform(0, height)
+        phi = numpy.random.uniform(0, 2*numpy.pi)
+        xtip1 = xcenter - (a/2)*numpy.cos(phi)
+        xtip2 = xcenter + (a/2)*numpy.cos(phi)
+        ytip1 = ycenter - (a/2)*numpy.sin(phi)
+        ytip2 = ycenter + (a/2)*numpy.sin(phi)
+        ellipse = Ellipse(((xtip1 + xcenter) * 0.5, (ytip1 + ycenter) * 0.5),
+            0.1, a / 2, 90 + numpy.degrees(phi), fill=False, lw=1)
+        pyplot.gca().add_artist(ellipse)
+        pyplot.plot([xcenter, xtip2], [ycenter, ytip2], "-", color="black", lw=1)
+    
+    pyplot.xlim(-b / 2, (ncracks - 1) * b + (b / 2))
+    pyplot.ylim(0, height)
+    pyplot.xticks([])
+    pyplot.yticks([])
+    pyplot.gca().set_aspect("equal")
+    pyplot.axis('off')
+    pyplot.tight_layout()
+    pyplot.savefig("figure_1.10.pdf")
+    pyplot.close()
+
 
 @click.command()
-@click.option("-n", default=4000)
-@click.option("-a", default=0.8)
+@click.option("-n", default=2000)
+@click.option("-a", default=1.0)
 @click.option("-b", default=1.0)
 def main(n, a, b):
     assert (a <= b)
     # figure_1_8(a, b)
-
+    # figure_1_10(n, a, b, 20*b)
+    
     start = timeit.default_timer()
     nhits = 0
     for i in range(n):
