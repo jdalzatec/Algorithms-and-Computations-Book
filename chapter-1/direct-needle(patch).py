@@ -24,8 +24,9 @@ def main(n, a, b):
         xtip = xcenter - (a / 2) * (deltax / hypo)
         if (xtip < 0):
             nhits += 1
+    estimated_pi = (a / b) * (2 / (nhits / n))
     stop = timeit.default_timer()
-    print(f"nhits = {nhits}; time = {stop - start} seconds")
+    print(f"nhits = {nhits}; pi = {estimated_pi}; time = {stop - start} seconds")
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 if __name__ == '__main__':
