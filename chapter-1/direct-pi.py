@@ -16,7 +16,7 @@ def main(n, seed):
             nhits += 1
     estimated_pi = 4 * (nhits / n)
     stop = timeit.default_timer()
-    print(nhits, "pi = ", estimated_pi, "time = ", stop - start, "seconds")
+    print(f"nhits = {nhits}; pi = {estimated_pi}; time = {stop - start} seconds")
 
 
     # A faster implementation
@@ -27,7 +27,7 @@ def main(n, seed):
     nhits = numpy.count_nonzero(inner)
     estimated_pi = 4 * (nhits / n)
     stop = timeit.default_timer()
-    print(nhits, "pi = ", estimated_pi, "time = ", stop - start, "seconds")
+    print(f"nhits = {nhits}; pi = {estimated_pi}; time = {stop - start} seconds")
 
 
 
